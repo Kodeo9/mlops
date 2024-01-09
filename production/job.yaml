@@ -9,6 +9,6 @@ inputs:
     type: uri_file
     path: azureml:test:1
 environment: azureml://registries/azureml/environments/sklearn-1.1/versions/14
-compute: mlops
+compute: mlopscw
 experiment_name: mlopscw
 description: mlopscw
