@@ -162,18 +162,8 @@ def print_grid_search_attributes(model):
     print('\n\tAverage Cross Validate scores of best estimator : \n\n\t{}\n'.format(model.best_score_))
 
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import GridSearchCV
-from sklearn import linear_model
-
-# start Grid search
-parameters = {'C':[0.01, 0.1, 1, 10, 20, 30], 'penalty':['l2','l1'], 'max_iter': [100, 500, 1000]}
-log_reg = linear_model.LogisticRegression()
-log_reg_grid = GridSearchCV(log_reg, param_grid=parameters, cv=3, verbose=1, n_jobs=-1)
-log_reg_grid_results =  perform_model(log_reg_grid, X_train, y_train, X_test, y_test, class_labels=labels)
-
-plt.figure(figsize=(8,8))
-plt.grid(False)
-plot_confusion_matrix(log_reg_grid_results['confusion_matrix'], classes=labels, cmap=plt.cm.Greens, )
-plt.show()
-
-print_grid_search_attributes(log_reg_grid_results['model'])
+parameters = {'max_depth':np.arange(3,10,2)}
+dt = DecisionTreeClassifier()
+dt_grid = GridSearchCV(dt,param_grid=parameters, n_jobs=-1)
+dt_grid_results = perform_model(dt_grid, X_train, y_train, X_test, y_test, class_labels=labels)
+print_grid_search_attributes(dt_grid_results['model'])
