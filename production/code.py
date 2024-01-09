@@ -166,7 +166,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn import linear_model
 
 # start Grid search
-parameters = {'C':[0.01, 0.1, 1, 10, 20, 30], 'penalty':['l2','l1']}
+parameters = {'C':[0.01, 0.1, 1, 10, 20, 30], 'penalty':['l2','l1'], 'max_iter': [100, 500, 1000]}
 log_reg = linear_model.LogisticRegression()
 log_reg_grid = GridSearchCV(log_reg, param_grid=parameters, cv=3, verbose=1, n_jobs=-1)
 log_reg_grid_results =  perform_model(log_reg_grid, X_train, y_train, X_test, y_test, class_labels=labels)
