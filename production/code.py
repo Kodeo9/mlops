@@ -1,7 +1,17 @@
 import numpy as np
 import pandas as pd
-train = pd.read_csv("archive/train.csv")
-test = pd.read_csv("archive/test.csv")
+import argparse
+import mlflow
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--trainingdata", type=str, required=True, help='Dataset for training')
+parser.add_argument("--testingdata", type=str, required=True, help='Dataset for testing')
+args = parser.parse_args()
+mlflow.autolog()
+
+train = pd.read_csv(args.trainingdata)
+test = pd.read_csv(args.testingdata)
+
 
 columns = train.columns
 columns = columns.str.replace('[()]','')
