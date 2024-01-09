@@ -1,3 +1,4 @@
+
 import numpy as np
 import pandas as pd
 import argparse
@@ -12,16 +13,15 @@ mlflow.autolog()
 train = pd.read_csv(args.trainingdata)
 test = pd.read_csv(args.testingdata)
 
-
 columns = train.columns
+
+# Removing '()' from column names
 columns = columns.str.replace('[()]','')
 columns = columns.str.replace('[-]', '')
 columns = columns.str.replace('[,]','')
 
 train.columns = columns
 test.columns = columns
-
-test.columns
 
 y_train = train.Activity
 X_train = train.drop(['subject', 'Activity'], axis=1)
@@ -35,6 +35,7 @@ labels=['LAYING', 'SITTING','STANDING','WALKING','WALKING_DOWNSTAIRS','WALKING_U
 import itertools
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn import metrics
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import RandomizedSearchCV
 plt.rcParams["font.family"] = 'DejaVu Sans'
@@ -114,7 +115,7 @@ def perform_model(model, X_train, y_train, X_test, y_test, class_labels, cm_norm
         
     # plot confusin matrix
     plt.figure(figsize=(8,8))
-    plt.grid(visible=False)
+    plt.grid(False)
     plot_confusion_matrix(cm, classes=class_labels, normalize=True, title='Normalized confusion matrix', cmap = cm_cmap)
     plt.show()
     
@@ -160,12 +161,9 @@ def print_grid_search_attributes(model):
     print('--------------------------')
     print('\n\tAverage Cross Validate scores of best estimator : \n\n\t{}\n'.format(model.best_score_))
 
-#Logistic Regression
-from sklearn import linear_model
-from sklearn import metrics
-
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
-
+from sklearn import linear_model
 
 # start Grid search
 parameters = {'C':[0.01, 0.1, 1, 10, 20, 30], 'penalty':['l2','l1']}
@@ -174,7 +172,7 @@ log_reg_grid = GridSearchCV(log_reg, param_grid=parameters, cv=3, verbose=1, n_j
 log_reg_grid_results =  perform_model(log_reg_grid, X_train, y_train, X_test, y_test, class_labels=labels)
 
 plt.figure(figsize=(8,8))
-plt.grid(visible=False)
+plt.grid(False)
 plot_confusion_matrix(log_reg_grid_results['confusion_matrix'], classes=labels, cmap=plt.cm.Greens, )
 plt.show()
 
