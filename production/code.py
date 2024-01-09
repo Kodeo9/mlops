@@ -162,6 +162,8 @@ def print_grid_search_attributes(model):
     print('\n\tAverage Cross Validate scores of best estimator : \n\n\t{}\n'.format(model.best_score_))
 
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import GridSearchCV
+
 parameters = {'max_depth':np.arange(3,10,2)}
 dt = DecisionTreeClassifier()
 dt_grid = GridSearchCV(dt,param_grid=parameters, n_jobs=-1)
